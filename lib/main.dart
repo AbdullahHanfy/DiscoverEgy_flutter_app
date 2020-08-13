@@ -6,6 +6,7 @@ import './screens/museum_screen.dart';
 import './screens/page_selector.dart';
 import './screens/registration_screen.dart';
 import './screens/welcome_screen.dart';
+import './screens/trip_inputs.dart';
 
 void main() => runApp(DiscoverEGY());
 
@@ -22,6 +23,7 @@ class DiscoverEGY extends StatelessWidget {
         HomePage.id: (context) => HomePage(),
         DestinationScreen.id: (context) => DestinationScreen(),
         MuseumScreen.id: (context) => MuseumScreen(),
+        TripInputs.id: (context) => TripInputs()
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
 import './museum_screen.dart';
+import './trip_inputs.dart';
 
 class PageSelector extends StatefulWidget {
   static String id = 'pageSelector';
@@ -11,11 +12,7 @@ class PageSelector extends StatefulWidget {
 class _PageSelectorState extends State<PageSelector> {
   int _currentTab = 0;
 
-  final _pageOptions = [
-    HomePage(),
-    MuseumScreen(),
-    HomePage(),
-  ];
+  final _pageOptions = [HomePage(), MuseumScreen(), HomePage(), TripInputs()];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,7 @@ class _PageSelectorState extends State<PageSelector> {
             primaryColor: Color(0xffc7aa68),
             textTheme: Theme.of(context)
                 .textTheme
-                .copyWith(caption: new TextStyle(color: Colors.white))),
+                .copyWith(caption: new TextStyle(color: Color(0xffc7aa68)))),
         child: BottomNavigationBar(
           currentIndex: _currentTab,
           onTap: (value) {
@@ -58,7 +55,14 @@ class _PageSelectorState extends State<PageSelector> {
                 size: 30.0,
               ),
               title: SizedBox.shrink(),
-            )
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.favorite,
+                size: 30.0,
+              ),
+              title: SizedBox.shrink(),
+            ),
           ],
         ),
       ),
