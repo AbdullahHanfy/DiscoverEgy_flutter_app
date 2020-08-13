@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:discover_egy/constants.dart';
 import './museum_description.dart';
+import '../componants/drop_button.dart';
 
 class MuseumScreen extends StatefulWidget {
   static String id = 'museumScreen';
@@ -177,6 +178,13 @@ class _MuseumScreenState extends State<MuseumScreen> {
             ), */
             SizedBox(height: 20.0),
             Center(
+              child: DropButton(dropdownValue, (String newValue) {
+                setState(() {
+                  dropdownValue = newValue;
+                });
+              }, <String>["English", "Arabic", "French", "Spanish"]),
+            ),
+            /* Center(
               child: DropdownButton<String>(
                 dropdownColor: Color(0xff1a1a1a),
                 value: dropdownValue,
@@ -201,7 +209,7 @@ class _MuseumScreenState extends State<MuseumScreen> {
                   );
                 }).toList(),
               ),
-            ),
+            ), */
             Center(
               child: RaisedButton(
                 color: Color(0xff1a1a1a),

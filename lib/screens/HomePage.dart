@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:discover_egy/widgets/destination_carousel.dart';
 import 'package:discover_egy/widgets/hotel_carousel.dart';
+import 'package:discover_egy/widgets/restaurant_carousel.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'homePage';
@@ -14,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff1a1a1a),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 30.0),
@@ -33,6 +35,8 @@ class _HomePageState extends State<HomePage> {
             DestinationCarousel(),
             SizedBox(height: 20.0),
             HotelCarousel(),
+            SizedBox(height: 20.0),
+            RestaurantCarousel()
           ],
         ),
       ),
