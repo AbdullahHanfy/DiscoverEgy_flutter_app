@@ -184,32 +184,6 @@ class _MuseumScreenState extends State<MuseumScreen> {
                 });
               }, <String>["English", "Arabic", "French", "Spanish"]),
             ),
-            /* Center(
-              child: DropdownButton<String>(
-                dropdownColor: Color(0xff1a1a1a),
-                value: dropdownValue,
-                icon: Icon(Icons.arrow_downward),
-                iconSize: 24,
-                elevation: 16,
-                style: TextStyle(color: Color(0xffc7aa68)),
-                underline: Container(
-                  height: 2,
-                  color: Color(0xffc7aa68),
-                ),
-                onChanged: (String newValue) {
-                  setState(() {
-                    dropdownValue = newValue;
-                  });
-                },
-                items: <String>["English", "Arabic", "French", "Spanish"]
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-              ),
-            ), */
             Center(
               child: RaisedButton(
                 color: Color(0xff1a1a1a),
