@@ -15,6 +15,7 @@ class _HotelCarouselState extends State<HotelCarousel> {
     var response = await http.get("http://10.0.2.2/API/hotels");
 
     var jsonData = json.decode(response.body);
+    print(jsonData);
     List<Hotel> hotels = [];
     for (var data in jsonData) {
       Hotel hotel = Hotel(

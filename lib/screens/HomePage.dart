@@ -3,7 +3,6 @@ import 'package:discover_egy/widgets/destination_carousel.dart';
 import 'package:discover_egy/widgets/hotel_carousel.dart';
 import 'package:discover_egy/widgets/restaurant_carousel.dart';
 import 'package:discover_egy/widgets/site_carousel.dart';
-import 'package:discover_egy/widgets/site_carousel_test.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'homePage';
@@ -38,7 +37,6 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 20.0),
             SiteCarousel(),
             SizedBox(height: 20.0),
-            SiteCarouselTest()
           ],
         ),
       ),

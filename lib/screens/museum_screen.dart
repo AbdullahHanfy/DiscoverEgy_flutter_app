@@ -1,10 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:discover_egy/constants.dart';
-import './museum_description.dart';
+import './description.dart';
 import '../componants/drop_button.dart';
 
 class MuseumScreen extends StatefulWidget {

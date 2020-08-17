@@ -2,40 +2,42 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../models/item_model.dart';
 
 var imgResponse;
 var transResponse;
 
-class Description extends StatefulWidget {
+class MuseumDescription extends StatefulWidget {
   final File imageFile;
   final String lang;
-  Description(this.imageFile, this.lang);
+  MuseumDescription(this.imageFile, this.lang);
   @override
   State<StatefulWidget> createState() {
-    return _DescriptionState(this.imageFile, this.lang);
+    return _MuseumDescriptionState();
   }
 }
 
-class _DescriptionState extends State<Description> {
-  final File imageFile;
-  final String lang;
-  _DescriptionState(this.imageFile, this.lang);
-
-  Future<http.Response> requestMethodImage() async {
-    var url = 'https://tourappai.appspot.com/detect_imgdata';
+class _MuseumDescriptionState extends State<MuseumDescription> {
+  Future<List<Item>> _requestMethodImage() async {
+    var url = 'http://192.168.1.3:8080/detect';
     //var body = json.encode({'uri': downUrl});
-    var imageBytes = imageFile.readAsBytesSync();
+    var imageBytes = widget.imageFile.readAsBytesSync();
     Map<String, String> header = {'Content-type': 'application/octet-stream'};
     final response =
         await http.post(url, headers: header, body: imageBytes, encoding: utf8);
 
     final responseJson = json.decode(response.body);
+    print(responseJson);
+    List<Item> item = [];
+    item.add(Item(
+        name: responseJson['Name_E'].toString(),
+        description: responseJson['Description_F'].toString()));
 
-    imgResponse = responseJson['result'].toString();
-    return response;
+    print('aaa');
+    return item;
   }
 
-  Future<http.Response> requestMethodTrans(var lang) async {
+  /* Future<http.Response> requestMethodTrans(var lang) async {
     var url = 'https://tourappai.appspot.com/translate';
     var body =
         json.encode({'description': imgResponse, "target": lang.toString()});
@@ -46,12 +48,12 @@ class _DescriptionState extends State<Description> {
     transResponse = response.body.toString();
 
     return response;
-  }
+  } */
 
   String code;
 
   void langcode() {
-    switch (lang) {
+    switch (widget.lang) {
       case 'en':
         code = 'en-US';
         break;
@@ -82,8 +84,8 @@ class _DescriptionState extends State<Description> {
     return new Container(
         color: Colors.white,
         alignment: Alignment.center,
-        child: new FutureBuilder(
-            future: requestMethodTrans(lang),
+        child: FutureBuilder(
+            future: _requestMethodImage(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data != null) {
@@ -107,11 +109,11 @@ class _DescriptionState extends State<Description> {
   }
 
   Widget _getData(AsyncSnapshot snapshot) {
-    List<String> titleres = transResponse.split(",");
+    /* List<String> titleres = transResponse.split(",");
     String subtitle = ' ';
     for (int i = 1; i < titleres.length; i++) {
       subtitle = subtitle + titleres[i];
-    }
+    }  */
 
     return SafeArea(
       child: Scaffold(
@@ -126,7 +128,7 @@ class _DescriptionState extends State<Description> {
             child: Column(
               children: <Widget>[
                 Image.file(
-                  imageFile,
+                  widget.imageFile,
                   fit: BoxFit.cover,
                   height: 200.0,
                   width: MediaQuery.of(context).size.width,
@@ -137,8 +139,8 @@ class _DescriptionState extends State<Description> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                       ListTile(
-                        title: Text(titleres[0]),
-                        subtitle: Text(subtitle),
+                        title: Text('${snapshot.data[0].name}'),
+                        subtitle: Text('${snapshot.data[0].description}'),
                       ),
                     ])),
               ],

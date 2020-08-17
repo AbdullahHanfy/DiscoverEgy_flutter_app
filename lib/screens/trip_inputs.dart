@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:discover_egy/services/location.dart';
 import '../constants.dart';
+import '../widgets/program_carousel.dart';
 
 class TripInputs extends StatefulWidget {
   static String id = 'tripInputs';
@@ -67,9 +68,16 @@ class _TripInputsState extends State<TripInputs> {
             child: RaisedButton(
               color: kBlack,
               onPressed: () {
-                print(duration);
-                print(price);
-                print('${location.latitude}');
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProgramCarousel(
+                        latitude: location.latitude,
+                        longtude: location.longtude,
+                        duration: duration,
+                        price: price,
+                      ),
+                    ));
               },
               elevation: 5.0,
               splashColor: kBlack,
