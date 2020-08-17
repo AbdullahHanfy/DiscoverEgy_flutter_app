@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:discover_egy/widgets/destination_carousel.dart';
 import 'package:discover_egy/widgets/hotel_carousel.dart';
 import 'package:discover_egy/widgets/restaurant_carousel.dart';
+import 'package:discover_egy/widgets/site_carousel.dart';
+import 'package:discover_egy/widgets/site_carousel_test.dart';
 
 class HomePage extends StatefulWidget {
   static String id = 'homePage';
@@ -10,33 +12,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color(0xff1a1a1a),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(vertical: 30.0),
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 20.0, right: 120.0),
+              padding: EdgeInsets.only(left: 20.0, right: 15.0),
               child: Text(
-                'What would you like to find?',
+                'Welcome to Egypt..',
                 style: TextStyle(
-                  fontSize: 30.0,
+                  fontSize: 40.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
-            SizedBox(height: 20.0),
-            SizedBox(height: 20.0),
+            SizedBox(height: 40.0),
             DestinationCarousel(),
             SizedBox(height: 20.0),
             HotelCarousel(),
             SizedBox(height: 20.0),
-            RestaurantCarousel(Axis.horizontal)
+            RestaurantCarousel(),
+            SizedBox(height: 20.0),
+            SiteCarousel(),
+            SizedBox(height: 20.0),
+            SiteCarouselTest()
           ],
         ),
       ),

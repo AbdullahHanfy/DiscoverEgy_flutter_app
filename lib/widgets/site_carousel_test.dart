@@ -2,31 +2,29 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:discover_egy/models/site_model.dart';
 import 'package:discover_egy/screens/restaurant_secreen.dart';
-import '../models/hotel_model.dart';
 
-class HotelCarousel extends StatefulWidget {
+class SiteCarouselTest extends StatefulWidget {
   @override
-  _HotelCarouselState createState() => _HotelCarouselState();
+  _SiteCarouselTestState createState() => _SiteCarouselTestState();
 }
 
-class _HotelCarouselState extends State<HotelCarousel> {
-  Future<List<Hotel>> _fetchHotels() async {
-    var response = await http.get("http://10.0.2.2/API/hotels");
+class _SiteCarouselTestState extends State<SiteCarouselTest> {
+  Future<List<Site>> _fetchSites() async {
+    var response = await http.get("http://10.0.2.2/API/sites");
 
     var jsonData = json.decode(response.body);
-    List<Hotel> hotels = [];
+    List<Site> sites = [];
     for (var data in jsonData) {
-      Hotel hotel = Hotel(
-        imageUrl: data['image'],
-        name: data['name'],
-        rate: data['rate'],
-        price: data['price_per_night'],
-      );
-
-      hotels.add(hotel);
+      Site site = Site(
+          imageUrl: data['image'],
+          name: data['name'],
+          rate: data['rate'],
+          price: data['price']);
+      sites.add(site);
     }
-    return hotels;
+    return sites;
   }
 
   @override
@@ -39,7 +37,7 @@ class _HotelCarouselState extends State<HotelCarousel> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Hotels',
+                'sites',
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
@@ -69,11 +67,10 @@ class _HotelCarouselState extends State<HotelCarousel> {
         Container(
           height: 300.0,
           child: FutureBuilder(
-            future: _fetchHotels(),
+            future: _fetchSites(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return Container(
-                  height: 300.0,
                   child: Center(
                     child: Text("Loading..."),
                   ),
@@ -81,25 +78,109 @@ class _HotelCarouselState extends State<HotelCarousel> {
               } else {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
+                      height: 600,
+                      width: 250,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image(
+                                height: 180.0,
+                                image:
+                                    NetworkImage(snapshot.data[index].imageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 7),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index].name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                ),
+                                maxLines: 2,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            SizedBox(height: 3),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index].rate,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.blueGrey[300],
+                                ),
+                                maxLines: 1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                snapshot.data[index].price,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  color: Colors.blueGrey[300],
+                                ),
+                                maxLines: 1,
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+
+                        /* Container(
                       margin: EdgeInsets.all(10.0),
-                      height: 150.0,
+                      width: 240.0,
                       child: Stack(
                         alignment: Alignment.topCenter,
                         children: <Widget>[
                           Positioned(
-                            //bottom: 0.1,
+                            bottom: 15.0,
                             child: Container(
-                              height: 150.0,
+                              height: 120.0,
                               width: 240.0,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(top: 30.0, left: 10.0),
+                                padding: EdgeInsets.all(10.0),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -158,7 +239,8 @@ class _HotelCarouselState extends State<HotelCarousel> {
                           )
                         ],
                       ),
-                    );
+                    ) */
+                        ;
                   },
                 );
               }

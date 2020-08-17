@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
 import '../componants/drop_button.dart';
-import '../widgets/restaurant_carousel.dart';
+import '../widgets/restaurant_page_carousel.dart';
 
 class RestaurantScreen extends StatefulWidget {
   static String id = 'restaurantScreen';
@@ -76,7 +76,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 ),
               ),
             ),
-            RestaurantCarousel(Axis.horizontal)
+            RestaurantPageCarousel()
           ],
         ),
       ),

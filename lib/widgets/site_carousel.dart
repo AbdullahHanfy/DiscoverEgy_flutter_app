@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:discover_egy/models/site_model.dart';
 import 'package:discover_egy/screens/restaurant_secreen.dart';
-import '../models/hotel_model.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import '../constants.dart';
 
-class HotelCarousel extends StatefulWidget {
+class SiteCarousel extends StatefulWidget {
   @override
-  _HotelCarouselState createState() => _HotelCarouselState();
+  _SiteCarouselState createState() => _SiteCarouselState();
 }
 
-class _HotelCarouselState extends State<HotelCarousel> {
-  Future<List<Hotel>> _fetchHotels() async {
-    var response = await http.get("http://10.0.2.2/API/hotels");
+class _SiteCarouselState extends State<SiteCarousel> {
+  Future<List<Site>> _fetchSites() async {
+    var response = await http.get("http://10.0.2.2/API/sites");
 
     var jsonData = json.decode(response.body);
-    List<Hotel> hotels = [];
+    List<Site> sites = [];
     for (var data in jsonData) {
-      Hotel hotel = Hotel(
-        imageUrl: data['image'],
-        name: data['name'],
-        rate: data['rate'],
-        price: data['price_per_night'],
-      );
-
-      hotels.add(hotel);
+      Site site = Site(
+          imageUrl: data['image'],
+          name: data['name'],
+          rate: data['rate'],
+          price: data['price']);
+      sites.add(site);
     }
-    return hotels;
+    return sites;
   }
 
   @override
@@ -39,7 +39,7 @@ class _HotelCarouselState extends State<HotelCarousel> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'Hotels',
+                'sites',
                 style: TextStyle(
                   fontSize: 22.0,
                   fontWeight: FontWeight.bold,
@@ -67,13 +67,12 @@ class _HotelCarouselState extends State<HotelCarousel> {
           ),
         ),
         Container(
-          height: 300.0,
+          height: 350.0,
           child: FutureBuilder(
-            future: _fetchHotels(),
+            future: _fetchSites(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return Container(
-                  height: 300.0,
                   child: Center(
                     child: Text("Loading..."),
                   ),
@@ -81,25 +80,48 @@ class _HotelCarouselState extends State<HotelCarousel> {
               } else {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: EdgeInsets.all(10.0),
-                      height: 150.0,
-                      child: Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          Positioned(
-                            //bottom: 0.1,
-                            child: Container(
-                              height: 150.0,
-                              width: 240.0,
+                      /* height: 200.0,
+                      width: 240.0, */
+                      child: SingleChildScrollView(
+                        child: Column(
+                          //alignment: Alignment.topCenter,
+                          children: <Widget>[
+                            Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.circular(20.0),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                    offset: Offset(0.0, 2.0),
+                                    blurRadius: 6.0,
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20.0),
+                                child: Image(
+                                  height: 180.0,
+                                  width: 250.0,
+                                  image: NetworkImage(
+                                      snapshot.data[index].imageUrl),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 150.0,
+                              width: 280.0,
+                              decoration: BoxDecoration(
+                                color: kGold,
+                                borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: Padding(
-                                padding: EdgeInsets.only(top: 30.0, left: 10.0),
+                                padding: EdgeInsets.all(10.0),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
@@ -107,12 +129,30 @@ class _HotelCarouselState extends State<HotelCarousel> {
                                       Text(
                                         snapshot.data[index].name,
                                         style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontWeight: FontWeight.w600,
+                                          fontSize: 19.5,
+                                          fontWeight: FontWeight.bold,
                                           letterSpacing: 1.2,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                       SizedBox(height: 2.0),
+                                      /* RatingBar(
+                                        //initialRating: double.parse(
+                                        //    snapshot.data[index].rate),
+                                        //minRating: 1,
+                                        direction: Axis.horizontal,
+                                        allowHalfRating: true,
+                                        itemCount: 1,
+                                        itemPadding: EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        itemBuilder: (context, _) => Icon(
+                                          Icons.favorite,
+                                          color: Color(0xffc7aa38),
+                                        ),
+                                        onRatingUpdate: (rating) {
+                                          print(rating);
+                                        },
+                                      ) */
                                       Text(
                                         snapshot.data[index].rate,
                                         style: TextStyle(
@@ -132,31 +172,8 @@ class _HotelCarouselState extends State<HotelCarousel> {
                                 ),
                               ),
                             ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20.0),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black26,
-                                  offset: Offset(0.0, 2.0),
-                                  blurRadius: 6.0,
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
-                              child: Image(
-                                height: 180.0,
-                                width: 220.0,
-                                image:
-                                    NetworkImage(snapshot.data[index].imageUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        ],
+                          ],
+                        ),
                       ),
                     );
                   },

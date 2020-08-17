@@ -3,14 +3,13 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:discover_egy/models/restaurant_model.dart';
-import 'package:discover_egy/screens/restaurant_secreen.dart';
 
-class RestaurantCarousel extends StatefulWidget {
+class RestaurantPageCarousel extends StatefulWidget {
   @override
-  _RestaurantCarouselState createState() => _RestaurantCarouselState();
+  _RestaurantPageCarouselState createState() => _RestaurantPageCarouselState();
 }
 
-class _RestaurantCarouselState extends State<RestaurantCarousel> {
+class _RestaurantPageCarouselState extends State<RestaurantPageCarousel> {
   Future<List<Restaurant>> _fetchRestaurants() async {
     var response = await http.get("http://10.0.2.2/API/restraunts");
 
@@ -31,39 +30,6 @@ class _RestaurantCarouselState extends State<RestaurantCarousel> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                'Restaurants',
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              GestureDetector(
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => RestaurantScreen(),
-                  ),
-                ),
-                child: Text(
-                  'See All',
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
         Container(
           height: 300.0,
           child: FutureBuilder(
@@ -78,7 +44,7 @@ class _RestaurantCarouselState extends State<RestaurantCarousel> {
               } else {
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2 /*snapshot.data.length*/,
+                  itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: EdgeInsets.all(10.0),
