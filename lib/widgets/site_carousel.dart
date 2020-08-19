@@ -5,7 +5,7 @@ import 'dart:convert';
 import 'package:discover_egy/models/site_model.dart';
 import 'package:discover_egy/screens/restaurant_secreen.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../constants.dart';
+//import '../constants.dart';
 
 class SiteCarousel extends StatefulWidget {
   @override
@@ -17,6 +17,7 @@ class _SiteCarouselState extends State<SiteCarousel> {
     var response = await http.get("http://10.0.2.2/API/sites");
 
     var jsonData = json.decode(response.body);
+    //print(jsonData);
     List<Site> sites = [];
     for (var data in jsonData) {
       Site site = Site(
@@ -117,7 +118,7 @@ class _SiteCarouselState extends State<SiteCarousel> {
                               height: 150.0,
                               width: 280.0,
                               decoration: BoxDecoration(
-                                color: kGold,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
                               child: Padding(
@@ -136,29 +137,29 @@ class _SiteCarouselState extends State<SiteCarousel> {
                                         textAlign: TextAlign.center,
                                       ),
                                       SizedBox(height: 2.0),
-                                      /* RatingBar(
-                                        //initialRating: double.parse(
-                                        //    snapshot.data[index].rate),
-                                        //minRating: 1,
+                                      RatingBar(
+                                        initialRating: double.parse(
+                                            snapshot.data[index].rate),
+                                        minRating: 1,
                                         direction: Axis.horizontal,
                                         allowHalfRating: true,
-                                        itemCount: 1,
+                                        itemCount: 5,
                                         itemPadding: EdgeInsets.symmetric(
                                             horizontal: 2.0),
                                         itemBuilder: (context, _) => Icon(
-                                          Icons.favorite,
+                                          Icons.star,
                                           color: Color(0xffc7aa38),
                                         ),
                                         onRatingUpdate: (rating) {
                                           print(rating);
                                         },
-                                      ) */
-                                      Text(
+                                      ),
+                                      /* Text(
                                         snapshot.data[index].rate,
                                         style: TextStyle(
                                           color: Colors.grey,
                                         ),
-                                      ),
+                                      ), */
                                       SizedBox(height: 2.0),
                                       Text(
                                         snapshot.data[index].price,

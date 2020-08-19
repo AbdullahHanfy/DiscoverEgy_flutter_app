@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:discover_egy/widgets/destination_carousel.dart';
 import 'package:discover_egy/widgets/hotel_carousel.dart';
 import 'package:discover_egy/widgets/restaurant_carousel.dart';
 import 'package:discover_egy/widgets/site_carousel.dart';
@@ -29,8 +28,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             SizedBox(height: 40.0),
-            DestinationCarousel(),
-            SizedBox(height: 20.0),
             HotelCarousel(),
             SizedBox(height: 20.0),
             RestaurantCarousel(),

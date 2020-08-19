@@ -1,15 +1,15 @@
 class Activity {
   String imageUrl;
   String name;
-  String type;
+  //String type;
   List<String> startTimes;
-  int rating;
-  int price;
+  String rating;
+  String price;
 
   Activity({
     this.imageUrl,
     this.name,
-    this.type,
+    //this.type,
     this.startTimes,
     this.rating,
     this.price,

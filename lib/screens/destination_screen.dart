@@ -187,12 +187,12 @@ class _DestinationScreenState extends State<DestinationScreen> {
                               ],
                             ),
                             Text(
-                              activity.type,
+                              '',
                               style: TextStyle(
                                 color: Colors.grey,
                               ),
                             ),
-                            _buildRatingStars(activity.rating),
+                            _buildRatingStars(int.parse(activity.rating)),
                             SizedBox(height: 10.0),
                             Row(
                               children: <Widget>[

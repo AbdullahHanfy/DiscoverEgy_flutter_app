@@ -112,34 +112,10 @@ class _MuseumScreenState extends State<MuseumScreen> {
         child: ListView(
           padding: const EdgeInsets.all(8.0),
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(20.0),
-              child: TextFormField(
-                decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter The Statue Name',
-                ),
-                onChanged: (value) {
-                  statueName = value;
-                },
-              ),
-            ),
-            SizedBox(height: 5.0),
-            Center(
-              child: RaisedButton(
-                color: Color(0xff1a1a1a),
-                onPressed: () {},
-                elevation: 2.0,
-                splashColor: Color(0xff1a1a1a),
-                child: Text(
-                  'search',
-                  style: TextStyle(color: Color(0xffc7aa68), fontSize: 16.0),
-                ),
-              ),
-            ),
             SizedBox(height: 30.0),
             Center(
               child: Text(
-                'OR click here to Take a picture to the Statue',
+                'click here to Take a picture to the Statue',
                 style: TextStyle(color: Color(0xffc7aa68), fontSize: 20.0),
               ),
             ),

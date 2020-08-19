@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/item_model.dart';
+import '../constants.dart';
 
 var imgResponse;
 var transResponse;
@@ -19,7 +20,7 @@ class MuseumDescription extends StatefulWidget {
 
 class _MuseumDescriptionState extends State<MuseumDescription> {
   Future<List<Item>> _requestMethodImage() async {
-    var url = 'http://192.168.1.3:8080/detect';
+    var url = 'http://192.168.1.7:8080/detect';
     //var body = json.encode({'uri': downUrl});
     var imageBytes = widget.imageFile.readAsBytesSync();
     Map<String, String> header = {'Content-type': 'application/octet-stream'};
@@ -118,8 +119,13 @@ class _MuseumDescriptionState extends State<MuseumDescription> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Image Description'),
+          backgroundColor: kBlack,
           centerTitle: true,
+          title: Text(
+            'Image Description',
+            style: TextStyle(color: kGold),
+          ),
+          automaticallyImplyLeading: false,
         ),
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -130,7 +136,7 @@ class _MuseumDescriptionState extends State<MuseumDescription> {
                 Image.file(
                   widget.imageFile,
                   fit: BoxFit.cover,
-                  height: 200.0,
+                  height: 500.0,
                   width: MediaQuery.of(context).size.width,
                   alignment: Alignment.center,
                 ),
@@ -139,8 +145,12 @@ class _MuseumDescriptionState extends State<MuseumDescription> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                       ListTile(
-                        title: Text('${snapshot.data[0].name}'),
-                        subtitle: Text('${snapshot.data[0].description}'),
+                        title: Text(
+                          '${snapshot.data[0].name}',
+                          style: TextStyle(fontSize: 30.0),
+                        ),
+                        subtitle: Text('${snapshot.data[0].description}',
+                            style: TextStyle(fontSize: 30.0)),
                       ),
                     ])),
               ],

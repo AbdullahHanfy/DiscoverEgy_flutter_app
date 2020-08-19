@@ -3,66 +3,40 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/activity_model.dart';
+import '../models/restaurant_model.dart';
 import '../constants.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class ProgramDetailsCarousel extends StatefulWidget {
-  final double latitude;
-  final double longtude;
-  final String duration;
-  final String price;
-  final int index;
-  ProgramDetailsCarousel(
-      {this.latitude, this.longtude, this.duration, this.price, this.index});
+class RestaurantsOutput extends StatefulWidget {
   @override
-  _ProgramDetailsCarouselState createState() => _ProgramDetailsCarouselState();
+  _RestaurantsOutputState createState() => _RestaurantsOutputState();
 }
 
-class _ProgramDetailsCarouselState extends State<ProgramDetailsCarousel> {
-  Future<List<Activity>> _fetchActivitys() async {
-    var url = 'http://192.168.1.7:8080/tour_planning';
-    var data = {
-      'lat': 31.050053,
-      'lon': 35.235964,
-      'startTime': 9,
-      'time': 8,
-      'budget': 100
-    };
+class _RestaurantsOutputState extends State<RestaurantsOutput> {
+  Future<List<Restaurant>> _fetchRestaurants() async {
+    /* var url = 'http://192.168.1.7:8080/recommendation';
+    var data = {"diet": "Cafe", "price": "\$\$-\$\$\$"};
     Map<String, String> header = {'Content-type': 'application/json'};
 
     var response =
-        await http.post(url, headers: header, body: json.encode(data));
-
+        await http.post(url, headers: header, body: json.encode(data)); */
+    var response = await http.get("http://10.0.2.2/API/recommendation");
     var jsonData = jsonDecode(response.body);
-    //print(jsonData[widget.index]['program']);
-    //
-    List<Activity> activites = [];
-    /* Program program = Program(
-        totalHoures: jsonData[0]['program'][0]["From"].toString(),
-        totalPrices: jsonData[0]['program'][0]["From"].toString());
-    programs.add(program); */
+    //print(jsonData[]);
 
-    for (var data in jsonData[widget.index]['program']) {
-      print(data['Image']);
-      print(data['you will visit']);
+    List<Restaurant> restaurants = [];
 
-      print(data['rating of this place is ']);
-      print(data['rating of this place is ']);
-      print(data['The cost is ']);
-      print(data['From']);
-      print(data['To']);
-
-      Activity activity = Activity(
-          imageUrl: data['Image'],
-          name: data['you will visit'],
-          price: data['The cost is '],
-          rating: data['rating of this place is '],
-          startTimes: [data['From'], data['To']]);
-      activites.add(activity);
+    for (var rest in jsonData) {
+      Restaurant restaurant = Restaurant(
+          imageUrl: rest['image'],
+          name: rest['name'],
+          specialDiets: rest['specialdiets'],
+          rate: rest['rate']);
+      restaurants.add(restaurant);
     }
-    print(activites.length);
+    print(restaurants.length);
 
-    return activites;
+    return restaurants;
   }
 
   @override
@@ -73,14 +47,14 @@ class _ProgramDetailsCarouselState extends State<ProgramDetailsCarousel> {
           backgroundColor: kBlack,
           centerTitle: true,
           title: Text(
-            'Programs Details',
+            'Recommended Restaurants',
             style: TextStyle(color: kGold),
           ),
           automaticallyImplyLeading: false,
         ),
         body: SafeArea(
             child: FutureBuilder(
-                future: _fetchActivitys(),
+                future: _fetchRestaurants(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null) {
                     return Container(
@@ -94,7 +68,7 @@ class _ProgramDetailsCarouselState extends State<ProgramDetailsCarousel> {
                         Expanded(
                           child: ListView.builder(
                             padding: EdgeInsets.only(top: 10.0, bottom: 15.0),
-                            itemCount: 4,
+                            itemCount: 10,
                             itemBuilder: (BuildContext context, int index) {
                               return Stack(
                                 children: <Widget>[
@@ -138,7 +112,8 @@ class _ProgramDetailsCarouselState extends State<ProgramDetailsCarousel> {
                                               Column(
                                                 children: <Widget>[
                                                   Text(
-                                                    '\$${snapshot.data[index].price}',
+                                                    snapshot.data[index]
+                                                        .specialDiets,
                                                     style: TextStyle(
                                                       fontSize: 22.0,
                                                       fontWeight:
@@ -149,81 +124,27 @@ class _ProgramDetailsCarouselState extends State<ProgramDetailsCarousel> {
                                               ),
                                             ],
                                           ),
-                                          Text(
-                                            '',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
+
                                           //_buildRatingStars(int.parse(activity.rating)),
+
+                                          RatingBar(
+                                            initialRating: double.parse(
+                                                snapshot.data[index].rate),
+                                            minRating: 1,
+                                            direction: Axis.horizontal,
+                                            allowHalfRating: true,
+                                            itemCount: 5,
+                                            itemPadding: EdgeInsets.symmetric(
+                                                horizontal: 2.0),
+                                            itemBuilder: (context, _) => Icon(
+                                              Icons.star,
+                                              color: Color(0xffc7aa38),
+                                            ),
+                                            onRatingUpdate: (rating) {
+                                              print(rating);
+                                            },
+                                          ),
                                           SizedBox(height: 10.0),
-                                          Row(
-                                            children: <Widget>[
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 50.0,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'From',
-                                                ),
-                                              ),
-                                              SizedBox(width: 5.0),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 50.0,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data[index]
-                                                      .startTimes[0],
-                                                ),
-                                              ),
-                                              SizedBox(width: 10.0),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 40.0,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.grey,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'To',
-                                                ),
-                                              ),
-                                              SizedBox(width: 5.0),
-                                              Container(
-                                                padding: EdgeInsets.all(5.0),
-                                                width: 70.0,
-                                                decoration: BoxDecoration(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10.0),
-                                                ),
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  snapshot.data[index]
-                                                      .startTimes[1],
-                                                ),
-                                              ),
-                                            ],
-                                          )
                                         ],
                                       ),
                                     ),
