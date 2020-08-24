@@ -10,3 +10,7 @@ be audible or a text.
 The user can find a tour programs by entering their budget, trip estimated time and other inputs to the machine learning model and then it’s generates a tour program.
 Also the user can get hotels and restaurants recommendations according to some information is being entered by the user and then the models recommends suitable
 places.
+
+
+# Demo App 
+![](assets/images/DemoAPP.gif)
